@@ -11,7 +11,7 @@ public class MyArrays {
 		} else if (sortAlgorithm == 'i') {
 			insertionSort(items, comparator);
 		} else if (sortAlgorithm == 'm') {
-			mergeSort(items, comparator, 0, 0);
+			mergeSort(items, comparator, 0, items.length - 1);
 		} else if (sortAlgorithm == 'q') {
 			quickSort(items, comparator);
 		}
@@ -67,24 +67,24 @@ public class MyArrays {
 		}
 	}
 
-	private static void merge(Comparable[] items, int l, int m, int r) {
+	private static void merge(Comparable[] items, Comparator comparator, int l, int m, int r) {
 		int n1 = m - l + 1;
 		int n2 = r - m;
 
-		double L[] = new double[n1];
-		double R[] = new double[n2];
+		// Temporary arrays
+		Comparable L[] = new Comparable[n1];
+		Comparable R[] = new Comparable[n2];
 
-		for (int i = 0; i < n1; i++)
-			L[i] = (double) items[l + i];
-
-		for (int j = 0; j < n2; j++)
-			R[j] = (double) items[m + 1 + j];
+		for (int i = 0; i < n1; ++i)
+			L[i] = items[l + i];
+		for (int j = 0; j < n2; ++j)
+			R[j] = items[m + 1 + j];
 
 		int i = 0, j = 0;
 
 		int k = l;
 		while (i < n1 && j < n2) {
-			if (L[i] <= R[j]) {
+			if (comparator.compare(L[i], R[j]) >= 0) {
 				items[k] = L[i];
 				i++;
 			} else {
@@ -112,7 +112,7 @@ public class MyArrays {
 			int m = (l + r) / 2;
 			mergeSort(items, comparator, l, m);
 			mergeSort(items, comparator, m + 1, r);
-			merge(items, l, m, r);
+			merge(items, comparator, l, m, r);
 		}
 	}
 

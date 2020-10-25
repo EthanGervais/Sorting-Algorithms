@@ -98,7 +98,7 @@ public class AppDriver {
 		System.out.println(poly4.getArea());
 		
 		long start = System.nanoTime();
-		MyArrays.sort('i', shapeArray, areaCompare);
+		MyArrays.sort('m', shapeArray, areaCompare);
 		long end = System.nanoTime();
 		
 		long timeMilliseconds = TimeUnit.MILLISECONDS.convert(end - start, TimeUnit.MILLISECONDS);
