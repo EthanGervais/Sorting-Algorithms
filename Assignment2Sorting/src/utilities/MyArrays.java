@@ -19,14 +19,14 @@ public class MyArrays {
 
 	private static void bubbleSort(Comparable[] items, Comparator comparator) {
 		int n = items.length;
-		Comparable[] temp = new Comparable[1];
+		Comparable temp;
 
 		for (int i = 0; i < n - 1; i++) {
 			for (int j = 0; j < n - i - 1; j++) {
-				if (comparator.compare(items[j], items[j + 1]) > 0) {
-					temp[0] = items[j];
+				if (comparator.compare(items[j], items[j + 1]) < 0) {
+					temp = items[j];
 					items[j] = items[j + 1];
-					items[j] = temp[0];
+					items[j + 1] = temp;
 				}
 			}
 		}
