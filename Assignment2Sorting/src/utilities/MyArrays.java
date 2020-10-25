@@ -13,7 +13,7 @@ public class MyArrays {
 		} else if (sortAlgorithm == 'm') {
 			mergeSort(items, comparator, 0, items.length - 1);
 		} else if (sortAlgorithm == 'q') {
-			quickSort(items, comparator);
+			quickSort(items, comparator, 0, items.length - 1);
 		}
 	}
 
@@ -116,7 +116,33 @@ public class MyArrays {
 		}
 	}
 
-	private static void quickSort(Comparable[] items, Comparator comparator) {
-		// Implement quick sort
+	private static int partition(Comparable[] items, Comparator comparator, int low, int high) {
+		Comparable pivot = items[high];
+		Comparable temp;
+		int i = (low - 1);
+		
+		for (int j = low; j < high; j++) {
+			if (comparator.compare(items[j], pivot) > 0) {
+				i++;
+				
+				temp = items[i];
+				items[i] = items[j];
+				items[j] = temp;
+			}
+		}
+		
+		temp = items[i + 1];
+		items[i + 1] = items[high];
+		items[high] = temp;
+		
+		return i + 1;
+	}
+	
+	private static void quickSort(Comparable[] items, Comparator comparator, int low, int high) {
+		if (low < high) {
+			int pi = partition(items, comparator, low, high);
+			quickSort(items, comparator, low, pi - 1);
+			quickSort(items, comparator, pi + 1, high);
+		}
 	}
 }
