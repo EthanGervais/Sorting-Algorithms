@@ -14,6 +14,8 @@ public class MyArrays {
 			mergeSort(items, comparator, 0, items.length - 1);
 		} else if (sortAlgorithm == 'q') {
 			quickSort(items, comparator, 0, items.length - 1);
+		} else if (sortAlgorithm == 'z') {
+			stupidSort(items, comparator);
 		}
 	}
 
@@ -120,29 +122,59 @@ public class MyArrays {
 		Comparable pivot = items[high];
 		Comparable temp;
 		int i = (low - 1);
-		
+
 		for (int j = low; j < high; j++) {
 			if (comparator.compare(items[j], pivot) > 0) {
 				i++;
-				
+
 				temp = items[i];
 				items[i] = items[j];
 				items[j] = temp;
 			}
 		}
-		
+
 		temp = items[i + 1];
 		items[i + 1] = items[high];
 		items[high] = temp;
-		
+
 		return i + 1;
 	}
-	
+
 	private static void quickSort(Comparable[] items, Comparator comparator, int low, int high) {
 		if (low < high) {
 			int pi = partition(items, comparator, low, high);
 			quickSort(items, comparator, low, pi - 1);
 			quickSort(items, comparator, pi + 1, high);
 		}
+	}
+
+	private static boolean isSorted(Comparable[] items, Comparator comparator) {
+		for (int i = 1; i < items.length; i++) {
+			if (comparator.compare(items[i], items[i - 1]) > 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private static void swap(Comparable[] items, int i, int j) {
+		Comparable temp = items[i];
+		items[i] = items[j];
+		items[j] = temp;
+	}
+	
+	private static void shuffle(Comparable[] items) {
+		for (int i = 1; i < items.length; i++)
+			swap(items, i, (int) (Math.random() * i));
+	}
+	
+	private static void stupidSort(Comparable[] items, Comparator comparator) {
+		int counter = 0;
+		while (!isSorted(items, comparator)) {
+			shuffle(items);
+			counter++;
+			System.out.println("Randomized " + counter + " times");
+		}
+		System.out.println("\nList sorted. Randomized " + counter + " times!");
 	}
 }
