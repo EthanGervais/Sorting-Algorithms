@@ -86,19 +86,19 @@ public class AppDriver {
 		// Testing the sorting algorithms using the BaseAreaComparator
 		BaseAreaComparator areaCompare = new BaseAreaComparator();
 		
-		Polygon poly = (Polygon) shapeArray[0];
-		Polygon poly2 = (Polygon) shapeArray[1];
-		Polygon poly3 = (Polygon) shapeArray[2];
-		Polygon poly4 = (Polygon) shapeArray[3];
+		Polygon poly = (Polygon) shapeArray[shapeArray.length - 4];
+		Polygon poly2 = (Polygon) shapeArray[shapeArray.length - 3];
+		Polygon poly3 = (Polygon) shapeArray[shapeArray.length - 2];
+		Polygon poly4 = (Polygon) shapeArray[shapeArray.length - 1];
 		
-		System.out.println("\nFirst 4 values before sorting: ");
+		System.out.println("\nLast 4 values before sorting: ");
 		System.out.println(poly.getArea());
 		System.out.println(poly2.getArea());
 		System.out.println(poly3.getArea());
 		System.out.println(poly4.getArea());
 		
 		long start = System.nanoTime();
-		MyArrays.sort('b', shapeArray, areaCompare);
+		MyArrays.sort('s', shapeArray, areaCompare);
 		long end = System.nanoTime();
 		
 		long timeMilliseconds = TimeUnit.MILLISECONDS.convert(end - start, TimeUnit.MILLISECONDS);
@@ -108,7 +108,7 @@ public class AppDriver {
 		poly3 = (Polygon) shapeArray[shapeArray.length - 2];
 		poly4 = (Polygon) shapeArray[shapeArray.length - 1];
 		
-		System.out.println("\nFirst 4 values after sorting: ");
+		System.out.println("\nLast 4 values after sorting: ");
 		System.out.println(poly.getArea());
 		System.out.println(poly2.getArea());
 		System.out.println(poly3.getArea());
