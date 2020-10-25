@@ -52,14 +52,13 @@ public class MyArrays {
 
 	private static void insertionSort(Comparable[] items, Comparator comparator) {
 		int n = items.length;
-		int j;
-		double key;
+		Comparable key;
 
 		for (int i = 1; i < n; i++) {
-			key = (double) items[i];
-			j = i - 1;
+			key = items[i];
+			int j = i - 1;
 
-			while (j >= 0 && comparator.compare(items[j], key) > 0) {
+			while (j >= 0 && comparator.compare(items[j], key) < 0) {
 				items[j + 1] = items[j];
 				j = j - 1;
 			}
