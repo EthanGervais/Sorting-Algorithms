@@ -5,6 +5,10 @@ public abstract class Polygon implements Comparable<Polygon> {
 	
 	public abstract double getArea();
 	public abstract double getVolume();
+	
+	public Polygon() {
+		
+	}
 
 	@Override
 	public int compareTo(Polygon o) {

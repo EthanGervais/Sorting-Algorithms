@@ -7,11 +7,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StreamTokenizer;
-import java.util.concurrent.TimeUnit;
 
 import problemdomain.*;
-import utilities.BaseAreaComparator;
-import utilities.MyArrays;
+import utilities.*;
 
 /**
  * @author Ethan Gervais
@@ -21,6 +19,7 @@ public class AppDriver {
 
 	public static void main(String[] args) throws IOException {
 		File path = null;
+		char sortType = 0;
 
 		for (String arg : args) {
 			if (!arg.startsWith("-") || arg.length() < 3)
@@ -29,8 +28,13 @@ public class AppDriver {
 			char option = Character.toLowerCase(arg.charAt(1));
 			String value = arg.substring(2);
 
-			if (option == 'f') {
+			switch (option) {
+			case 'f':
 				path = new File(value);
+				break;
+			case 's':
+				sortType = value.toLowerCase().charAt(0);
+				break;
 			}
 
 			System.out.println("Option: " + option + ", value: " + value);
@@ -85,34 +89,41 @@ public class AppDriver {
 		
 		// Testing the sorting algorithms using the BaseAreaComparator
 		BaseAreaComparator areaCompare = new BaseAreaComparator();
+		VolumeComparator volCompare = new VolumeComparator();
 		
-		Polygon poly = (Polygon) shapeArray[0];
-		Polygon poly2 = (Polygon) shapeArray[1];
-		Polygon poly3 = (Polygon) shapeArray[2];
-		Polygon poly4 = (Polygon) shapeArray[3];
-		
-		System.out.println("\nFirst 4 values before sorting: ");
-		System.out.println(poly.getArea());
-		System.out.println(poly2.getArea());
-		System.out.println(poly3.getArea());
-		System.out.println(poly4.getArea());
+//		Polygon poly = (Polygon) shapeArray[0];
+//		Polygon poly2 = (Polygon) shapeArray[1];
+//		Polygon poly3 = (Polygon) shapeArray[2];
+//		Polygon poly4 = (Polygon) shapeArray[3];
+//		
+//		System.out.println("\nFirst 4 values before sorting: ");
+//		System.out.println(poly.getArea());
+//		System.out.println(poly2.getArea());
+//		System.out.println(poly3.getArea());
+//		System.out.println(poly4.getArea());
 		
 		long start = System.currentTimeMillis();
-		MyArrays.sort('z', shapeArray, areaCompare);
+		MyArrays.sort(sortType, shapeArray, areaCompare);
 		long end = System.currentTimeMillis();
-		
 		long timeElapsed = end - start;
 		
-		poly = (Polygon) shapeArray[0];
-		poly2 = (Polygon) shapeArray[1];
-		poly3 = (Polygon) shapeArray[2];
-		poly4 = (Polygon) shapeArray[3];
+//		poly = (Polygon) shapeArray[0];
+//		poly2 = (Polygon) shapeArray[1];
+//		poly3 = (Polygon) shapeArray[2];
+//		poly4 = (Polygon) shapeArray[3];
+//		
+//		System.out.println("\nFirst 4 values after sorting: ");
+//		System.out.println(poly.getArea());
+//		System.out.println(poly2.getArea());
+//		System.out.println(poly3.getArea());
+//		System.out.println(poly4.getArea());
 		
-		System.out.println("\nFirst 4 values after sorting: ");
-		System.out.println(poly.getArea());
-		System.out.println(poly2.getArea());
-		System.out.println(poly3.getArea());
-		System.out.println(poly4.getArea());
+		Polygon lastPoly = (Polygon) shapeArray[(int) (arrSize - 1)];
+		for (int j = 0; j < arrSize - 1; j += 1000) {
+			Polygon nthPoly = (Polygon) shapeArray[j];
+			System.out.println(nthPoly.getArea());
+		}
+		System.out.println(lastPoly.getArea());
 		System.out.println("Time to sort in ms: " + timeElapsed);
 		
 		//System.out.println(shapeArray.length);
