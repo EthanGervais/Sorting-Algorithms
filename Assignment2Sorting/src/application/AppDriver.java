@@ -13,6 +13,11 @@ import problemdomain.*;
 import utilities.*;
 
 /**
+ * This program reads in a file of polygons, a sorting method selection, and a
+ * comparable type. It then outputs the time it took to sort the collection of
+ * objects for each sorting algorithm, the first and last value, and every
+ * thousandth value in between.
+ * 
  * @author Ethan Gervais
  *
  */

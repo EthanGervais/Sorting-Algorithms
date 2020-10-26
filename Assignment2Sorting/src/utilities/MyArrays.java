@@ -2,7 +2,22 @@ package utilities;
 
 import java.util.*;
 
+/**
+ * Handles the sorting methods.
+ * 
+ * @author Ethan Gervais
+ *
+ */
 public class MyArrays {
+
+	/**
+	 * Chooses which sort to perform and what to compare it to based on user input.
+	 * 
+	 * @param sortAlgorithm The user-chosen sorting algorithm
+	 * @param items         The array of unsorted polygons.
+	 * @param comparator    The user-chosen comparator that the items in the array will be
+	 *                      compared to when sorting.
+	 */
 	public static void sort(char sortAlgorithm, Comparable[] items, Comparator comparator) {
 		if (sortAlgorithm == 'b') {
 			bubbleSort(items, comparator);
@@ -19,6 +34,13 @@ public class MyArrays {
 		}
 	}
 
+	/**
+	 * Handles the implementation of the bubble sort.
+	 * 
+	 * @param items      The array of unsorted polygons.
+	 * @param comparator The comparator that the items in the array will be compared
+	 *                   to when sorting.
+	 */
 	private static void bubbleSort(Comparable[] items, Comparator comparator) {
 		int n = items.length;
 		Comparable temp;
@@ -34,6 +56,13 @@ public class MyArrays {
 		}
 	}
 
+	/**
+	 * Handles the implementation of the selection sort.
+	 * 
+	 * @param items      The array of unsorted polygons.
+	 * @param comparator The comparator that the items in the array will be compared
+	 *                   to when sorting.
+	 */
 	private static void selectionSort(Comparable[] items, Comparator comparator) {
 		int n = items.length;
 		Comparable temp;
@@ -52,6 +81,13 @@ public class MyArrays {
 		}
 	}
 
+	/**
+	 * Handles the implementation of the insertion sort.
+	 * 
+	 * @param items      The array of unsorted polygons.
+	 * @param comparator The comparator that the items in the array will be compared
+	 *                   to when sorting.
+	 */
 	private static void insertionSort(Comparable[] items, Comparator comparator) {
 		int n = items.length;
 		Comparable key;
@@ -69,22 +105,32 @@ public class MyArrays {
 		}
 	}
 
-	private static void merge(Comparable[] items, Comparator comparator, int l, int m, int r) {
-		int n1 = m - l + 1;
-		int n2 = r - m;
+	/**
+	 * Merging the separate arrays for the mergeSort method.
+	 * 
+	 * @param items      The array of unsorted polygons.
+	 * @param comparator The comparator that the items in the array will be compared
+	 *                   to when sorting.
+	 * @param left       Beginning of the array.
+	 * @param middle     The middle of the array.
+	 * @param right      End of the array.
+	 */
+	private static void merge(Comparable[] items, Comparator comparator, int left, int middle, int right) {
+		int n1 = middle - left + 1;
+		int n2 = right - middle;
 
 		// Temporary arrays
 		Comparable L[] = new Comparable[n1];
 		Comparable R[] = new Comparable[n2];
 
 		for (int i = 0; i < n1; ++i)
-			L[i] = items[l + i];
+			L[i] = items[left + i];
 		for (int j = 0; j < n2; ++j)
-			R[j] = items[m + 1 + j];
+			R[j] = items[middle + 1 + j];
 
 		int i = 0, j = 0;
 
-		int k = l;
+		int k = left;
 		while (i < n1 && j < n2) {
 			if (comparator.compare(L[i], R[j]) >= 0) {
 				items[k] = L[i];
@@ -109,15 +155,34 @@ public class MyArrays {
 		}
 	}
 
-	private static void mergeSort(Comparable[] items, Comparator comparator, int l, int r) {
-		if (l < r) {
-			int m = (l + r) / 2;
-			mergeSort(items, comparator, l, m);
-			mergeSort(items, comparator, m + 1, r);
-			merge(items, comparator, l, m, r);
+	/**
+	 * Handles the implementation of the merge sort.
+	 * 
+	 * @param items      The array of unsorted polygons.
+	 * @param comparator The comparator that the items in the array will be compared
+	 *                   to when sorting.
+	 * @param left       Beginning of the array.
+	 * @param right      End of the array.
+	 */
+	private static void mergeSort(Comparable[] items, Comparator comparator, int left, int right) {
+		if (left < right) {
+			int middle = (left + right) / 2;
+			mergeSort(items, comparator, left, middle);
+			mergeSort(items, comparator, middle + 1, right);
+			merge(items, comparator, left, middle, right);
 		}
 	}
 
+	/**
+	 * The partition for the quickSort method.
+	 * 
+	 * @param items      The array of unsorted polygons.
+	 * @param comparator The comparator that the items in the array will be compared
+	 *                   to when sorting.
+	 * @param left       Beginning of the array.
+	 * @param right      End of the array.
+	 * @return The index at the beginning of the array.
+	 */
 	private static int partition(Comparable[] items, Comparator comparator, int left, int right) {
 		Comparable pivot = items[left];
 		int p = left;
@@ -128,7 +193,7 @@ public class MyArrays {
 				items[p] = items[r];
 				items[r] = items[p + 1];
 				items[p + 1] = pivot;
-				
+
 				p++;
 			}
 		}
@@ -136,6 +201,15 @@ public class MyArrays {
 		return p;
 	}
 
+	/**
+	 * Handles the implementation of the quick sort.
+	 * 
+	 * @param items      The array of unsorted polygons.
+	 * @param comparator The comparator that the items in the array will be compared
+	 *                   to when sorting.
+	 * @param left       Beginning of the array.
+	 * @param right      End of the array.
+	 */
 	private static void quickSort(Comparable[] items, Comparator comparator, int left, int right) {
 		if (left < right) {
 			int p = partition(items, comparator, left, right);
@@ -144,6 +218,14 @@ public class MyArrays {
 		}
 	}
 
+	/**
+	 * Checks if the array of polygons is sorted or not for the stupidSort method.
+	 * 
+	 * @param items      The array of unsorted polygons.
+	 * @param comparator The comparator that the items in the array will be compared
+	 *                   to when sorting.
+	 * @return Returns true if the array is sorted, otherwise returns false.
+	 */
 	private static boolean isSorted(Comparable[] items, Comparator comparator) {
 		for (int i = 1; i < items.length; i++) {
 			if (comparator.compare(items[i], items[i - 1]) > 0) {
@@ -152,18 +234,37 @@ public class MyArrays {
 		}
 		return true;
 	}
-	
+
+	/**
+	 * Swaps elements in the array of polygons.
+	 * 
+	 * @param items The array of polygons being sorted for the stupidSort method.
+	 * @param i     An index of items being swapped.
+	 * @param j     An index of items being swapped
+	 */
 	private static void swap(Comparable[] items, int i, int j) {
 		Comparable temp = items[i];
 		items[i] = items[j];
 		items[j] = temp;
 	}
-	
+
+	/**
+	 * Shuffles the array randomly for the stupidSort method.
+	 * 
+	 * @param items The array of polygons being shuffled.
+	 */
 	private static void shuffle(Comparable[] items) {
 		for (int i = 1; i < items.length; i++)
 			swap(items, i, (int) (Math.random() * i));
 	}
-	
+
+	/**
+	 * Handles the implementation of the stupid sort, a.k.a. the bogo sort.
+	 * 
+	 * @param items      The array of unsorted polygons.
+	 * @param comparator The comparator that the items in the array will be compared
+	 *                   to when sorting.
+	 */
 	private static void stupidSort(Comparable[] items, Comparator comparator) {
 		int counter = 0;
 		while (!isSorted(items, comparator)) {
