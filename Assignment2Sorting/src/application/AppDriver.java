@@ -100,12 +100,13 @@ public class AppDriver {
 			i++;
 		}
 
-		// Testing the sorting algorithms using the BaseAreaComparator
+		// Sorting and getting the time to sort.
 		long start = System.currentTimeMillis();
 		MyArrays.sort(sortType, shapeArray, comparator);
 		long end = System.currentTimeMillis();
 		long timeElapsed = end - start;
 
+		// Getting the first, last, and every thousandth shape.
 		Polygon lastPoly = (Polygon) shapeArray[(int) (arrSize - 1)];
 		for (int j = 0; j < arrSize - 1; j += 1000) {
 			Polygon nthPoly = (Polygon) shapeArray[j];
@@ -113,8 +114,6 @@ public class AppDriver {
 		}
 		System.out.println(lastPoly.getArea());
 		System.out.println("Time to sort in ms: " + timeElapsed);
-
-		// System.out.println(shapeArray.length);
 
 	}
 

@@ -118,33 +118,29 @@ public class MyArrays {
 		}
 	}
 
-	private static int partition(Comparable[] items, Comparator comparator, int low, int high) {
-		Comparable pivot = items[high];
-		Comparable temp;
-		int i = (low - 1);
+	private static int partition(Comparable[] items, Comparator comparator, int left, int right) {
+		Comparable pivot = items[left];
+		int p = left;
 
-		for (int j = low; j < high; j++) {
-			if (comparator.compare(items[j], pivot) > 0) {
-				i++;
-
-				temp = items[i];
-				items[i] = items[j];
-				items[j] = temp;
+		for (int r = left; r <= right; r++) {
+			int comp = comparator.compare(items[r], pivot);
+			if (comp > 0) {
+				items[p] = items[r];
+				items[r] = items[p + 1];
+				items[p + 1] = pivot;
+				
+				p++;
 			}
 		}
 
-		temp = items[i + 1];
-		items[i + 1] = items[high];
-		items[high] = temp;
-
-		return i + 1;
+		return p;
 	}
 
-	private static void quickSort(Comparable[] items, Comparator comparator, int low, int high) {
-		if (low < high) {
-			int pi = partition(items, comparator, low, high);
-			quickSort(items, comparator, low, pi - 1);
-			quickSort(items, comparator, pi + 1, high);
+	private static void quickSort(Comparable[] items, Comparator comparator, int left, int right) {
+		if (left < right) {
+			int p = partition(items, comparator, left, right);
+			quickSort(items, comparator, left, p - 1);
+			quickSort(items, comparator, p + 1, right);
 		}
 	}
 
