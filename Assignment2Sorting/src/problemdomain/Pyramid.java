@@ -16,8 +16,13 @@ public class Pyramid extends Polygon{
 	}
 	@Override
 	public double getVolume() {
-		double volume = (1/3) * Math.pow(this.side, 2) * this.height;
+		double volume = (1.0/3) * Math.pow(this.side, 2) * this.height;
 		return volume;
+	}
+	
+	@Override
+	public double getHeight() {
+		return this.height;
 	}
 
 }

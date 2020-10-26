@@ -26,7 +26,10 @@ public class AppDriver {
 	public static void main(String[] args) throws IOException {
 		File path = null;
 		char sortType = 0;
+
 		Comparator comparator = null;
+		BaseAreaComparator areaCompare = new BaseAreaComparator();
+		VolumeComparator volCompare = new VolumeComparator();
 
 		for (String arg : args) {
 			if (!arg.startsWith("-") || arg.length() < 3)
@@ -38,24 +41,41 @@ public class AppDriver {
 			switch (option) {
 			case 'f':
 				path = new File(value);
+				System.out.println("File: " + value);
 				break;
 			case 's':
 				sortType = value.toLowerCase().charAt(0);
+				
+				if (sortType == 'b') {
+					System.out.println("Sort type: Bubble Sort");
+				} else if (sortType == 's') {
+					System.out.println("Sort type: Selection Sort");
+				} else if (sortType == 'i') {
+					System.out.println("Sort type: Insertion Sort");
+				} else if (sortType == 'm') {
+					System.out.println("Sort type: Merge Sort");
+				} else if (sortType == 'q') {
+					System.out.println("Sort type: Quicksort");
+				} else if (sortType == 'z') {
+					System.out.println("Sort type: Stupid Sort (Bogosort)");
+				}
+				
 				break;
 			case 't':
 				if (value.toLowerCase().equals("a")) {
-					BaseAreaComparator areaCompare = new BaseAreaComparator();
 					comparator = areaCompare;
+					System.out.println("Comparator: Base Area");
 				} else if (value.toLowerCase().equals("v")) {
-					VolumeComparator volCompare = new VolumeComparator();
 					comparator = volCompare;
+					System.out.println("Comparator: Volume");
+				} else if (value.toLowerCase().equals("h")) {
+
 				}
 				break;
 			default:
 				System.out.println("Invalid option selected.");
 			}
-
-			System.out.println("Option: " + option + ", value: " + value);
+			
 		}
 
 		FileReader freader = new FileReader(path);
@@ -111,14 +131,34 @@ public class AppDriver {
 		long end = System.currentTimeMillis();
 		long timeElapsed = end - start;
 
-		// Getting the first, last, and every thousandth shape.
 		Polygon lastPoly = (Polygon) shapeArray[(int) (arrSize - 1)];
-		for (int j = 0; j < arrSize - 1; j += 1000) {
-			Polygon nthPoly = (Polygon) shapeArray[j];
-			System.out.println(nthPoly.getArea());
+
+		// Displaying the values based on if the comparator is area, volume, or height.
+		if (comparator.equals(areaCompare)) {
+			for (int j = 0; j < arrSize - 1; j += 1000) {
+				Polygon nthPoly = (Polygon) shapeArray[j];
+				if (j == 0) {
+					System.out.println("\nThe first value is: " + nthPoly.getArea());
+				} else {
+					System.out.println("The " + j + "th value is: " + nthPoly.getArea());
+				}
+			}
+
+			System.out.println("The last value is: " + lastPoly.getArea());
+		} else if (comparator.equals(volCompare)) {
+			for (int j = 0; j < arrSize - 1; j += 1000) {
+				Polygon nthPoly = (Polygon) shapeArray[j];
+				if (j == 0) {
+					System.out.println("\nThe first value is: " + nthPoly.getVolume());
+				} else {
+					System.out.println("The " + j + "th value is: " + nthPoly.getVolume());
+				}
+			}
+
+			System.out.println("The last value is: " + lastPoly.getVolume());
 		}
-		System.out.println(lastPoly.getArea());
-		System.out.println("Time to sort in ms: " + timeElapsed);
+
+		System.out.println("\nTime to sort in ms: " + timeElapsed);
 
 	}
 

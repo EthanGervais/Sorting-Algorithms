@@ -11,7 +11,7 @@ public class Cylinder extends Polygon {
 
 	@Override
 	public double getArea() {
-		double area = Math.PI * Math.pow(radius, 2);
+		double area = Math.PI * Math.pow(this.radius, 2);
 		return area;
 	}
 
@@ -19,6 +19,11 @@ public class Cylinder extends Polygon {
 	public double getVolume() {
 		double volume = Math.PI * Math.pow(this.radius, 2) * this.height;
 		return volume;
+	}
+	
+	@Override
+	public double getHeight() {
+		return this.height;
 	}
 
 }

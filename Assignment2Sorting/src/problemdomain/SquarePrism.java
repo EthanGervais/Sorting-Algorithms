@@ -20,5 +20,10 @@ public class SquarePrism extends Polygon {
 		double volume = Math.pow(this.side, 2) * this.height;
 		return volume;
 	}
+	
+	@Override
+	public double getHeight() {
+		return this.height;
+	}
 
 }
