@@ -17,7 +17,7 @@ public class VolumeComparator implements Comparator<Polygon> {
 	 * 
 	 * @param a The first polygon being compared.
 	 * @param b The second polygon being compared.
-	 * @return The difference between the two polygons.
+	 * @return The difference in volume between the two polygons.
 	 */
 	@Override
 	public int compare(Polygon a, Polygon b) {

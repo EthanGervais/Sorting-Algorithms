@@ -45,7 +45,7 @@ public class AppDriver {
 				break;
 			case 's':
 				sortType = value.toLowerCase().charAt(0);
-				
+
 				if (sortType == 'b') {
 					System.out.println("Sort type: Bubble Sort");
 				} else if (sortType == 's') {
@@ -59,7 +59,7 @@ public class AppDriver {
 				} else if (sortType == 'z') {
 					System.out.println("Sort type: Stupid Sort (Bogosort)");
 				}
-				
+
 				break;
 			case 't':
 				if (value.toLowerCase().equals("a")) {
@@ -69,13 +69,13 @@ public class AppDriver {
 					comparator = volCompare;
 					System.out.println("Comparator: Volume");
 				} else if (value.toLowerCase().equals("h")) {
-
+					System.out.println("Comparator: Height");
 				}
 				break;
 			default:
 				System.out.println("Invalid option selected.");
 			}
-			
+
 		}
 
 		FileReader freader = new FileReader(path);
@@ -156,6 +156,17 @@ public class AppDriver {
 			}
 
 			System.out.println("The last value is: " + lastPoly.getVolume());
+		} else if (comparator.equals(null)) {
+			for (int j = 0; j < arrSize - 1; j += 1000) {
+				Polygon nthPoly = (Polygon) shapeArray[j];
+				if (j == 0) {
+					System.out.println("\nThe first value is: " + nthPoly.getHeight());
+				} else {
+					System.out.println("The " + j + "th value is: " + nthPoly.getHeight());
+				}
+			}
+
+			System.out.println("The last value is: " + lastPoly.getHeight());
 		}
 
 		System.out.println("\nTime to sort in ms: " + timeElapsed);
