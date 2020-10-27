@@ -23,13 +23,12 @@ public abstract class Polygon implements Comparable<Polygon> {
 	/**
 	 * Compares the height of two polygons.
 	 * 
-	 * @param o The second polygon being compared.
+	 * @param p The second polygon being compared.
 	 * @return The difference in height between the two polygons.
 	 */
 	@Override
-	public int compareTo(Polygon o) {
-		double difference = this.height - o.height;
-		return (int) difference;
+	public int compareTo(Polygon p) {
+		return (int) (this.getHeight() - p.getHeight());
 	}
 
 	/**

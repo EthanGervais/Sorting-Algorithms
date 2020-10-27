@@ -26,6 +26,7 @@ public class AppDriver {
 	public static void main(String[] args) throws IOException {
 		File path = null;
 		char sortType = 0;
+		boolean isHeight = false;
 
 		Comparator comparator = null;
 		BaseAreaComparator areaCompare = new BaseAreaComparator();
@@ -40,7 +41,7 @@ public class AppDriver {
 
 			switch (option) {
 			case 'f':
-				path = new File(value);
+				path = new File("res/" + value);
 				System.out.println("File: " + value);
 				break;
 			case 's':
@@ -69,6 +70,8 @@ public class AppDriver {
 					comparator = volCompare;
 					System.out.println("Comparator: Volume");
 				} else if (value.toLowerCase().equals("h")) {
+					comparator = areaCompare;
+					isHeight = true;
 					System.out.println("Comparator: Height");
 				}
 				break;
@@ -127,49 +130,49 @@ public class AppDriver {
 
 		// Sorting and getting the time to sort.
 		long start = System.currentTimeMillis();
-		MyArrays.sort(sortType, shapeArray, comparator);
+		MyArrays.sort(sortType, shapeArray, comparator, isHeight);
 		long end = System.currentTimeMillis();
 		long timeElapsed = end - start;
 
 		Polygon lastPoly = (Polygon) shapeArray[(int) (arrSize - 1)];
 
 		// Displaying the values based on if the comparator is area, volume, or height.
-		if (comparator.equals(areaCompare)) {
+		if (comparator.equals(areaCompare) && isHeight == false) {
 			for (int j = 0; j < arrSize - 1; j += 1000) {
 				Polygon nthPoly = (Polygon) shapeArray[j];
 				if (j == 0) {
-					System.out.println("\nThe first value is: " + nthPoly.getArea());
+					System.out.printf("\nThe first value is: %.2f %n", nthPoly.getArea());
 				} else {
-					System.out.println("The " + j + "th value is: " + nthPoly.getArea());
+					System.out.printf("The " + j + "th value is: %.2f %n", nthPoly.getArea());
 				}
 			}
 
-			System.out.println("The last value is: " + lastPoly.getArea());
-		} else if (comparator.equals(volCompare)) {
+			System.out.printf("The last value is: %.2f %n", lastPoly.getArea());
+		} else if (comparator.equals(volCompare) && isHeight == false) {
 			for (int j = 0; j < arrSize - 1; j += 1000) {
 				Polygon nthPoly = (Polygon) shapeArray[j];
 				if (j == 0) {
-					System.out.println("\nThe first value is: " + nthPoly.getVolume());
+					System.out.printf("\nThe first value is: %.2f %n", nthPoly.getVolume());
 				} else {
-					System.out.println("The " + j + "th value is: " + nthPoly.getVolume());
+					System.out.printf("The " + j + "th value is: %.2f %n", nthPoly.getVolume());
 				}
 			}
 
-			System.out.println("The last value is: " + lastPoly.getVolume());
-		} else if (comparator.equals(null)) {
+			System.out.printf("The last value is: %.2f %n", lastPoly.getVolume());
+		} else if (isHeight == true) {
 			for (int j = 0; j < arrSize - 1; j += 1000) {
 				Polygon nthPoly = (Polygon) shapeArray[j];
 				if (j == 0) {
-					System.out.println("\nThe first value is: " + nthPoly.getHeight());
+					System.out.printf("\nThe first value is: %.2f %n", nthPoly.getHeight());
 				} else {
-					System.out.println("The " + j + "th value is: " + nthPoly.getHeight());
+					System.out.printf("The " + j + "th value is: %.2f %n", nthPoly.getHeight());
 				}
 			}
 
-			System.out.println("The last value is: " + lastPoly.getHeight());
+			System.out.printf("The last value is: %.2f %n", lastPoly.getHeight());
 		}
 
-		System.out.println("\nTime to sort in ms: " + timeElapsed);
+		System.out.printf("\nTime to sort in ms: " + timeElapsed);
 
 	}
 

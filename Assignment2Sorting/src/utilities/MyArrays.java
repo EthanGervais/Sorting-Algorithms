@@ -2,6 +2,8 @@ package utilities;
 
 import java.util.*;
 
+import problemdomain.Polygon;
+
 /**
  * Handles the sorting methods.
  * 
@@ -15,22 +17,23 @@ public class MyArrays {
 	 * 
 	 * @param sortAlgorithm The user-chosen sorting algorithm
 	 * @param items         The array of unsorted polygons.
-	 * @param comparator    The user-chosen comparator that the items in the array will be
-	 *                      compared to when sorting.
+	 * @param comparator    The user-chosen comparator that the items in the array
+	 *                      will be compared to when sorting.
+	 * @param isHeight      If comparing by height.
 	 */
-	public static void sort(char sortAlgorithm, Comparable[] items, Comparator comparator) {
+	public static void sort(char sortAlgorithm, Comparable[] items, Comparator<Polygon> comparator, boolean isHeight) {
 		if (sortAlgorithm == 'b') {
-			bubbleSort(items, comparator);
+			bubbleSort(items, comparator, isHeight);
 		} else if (sortAlgorithm == 's') {
-			selectionSort(items, comparator);
+			selectionSort(items, comparator, isHeight);
 		} else if (sortAlgorithm == 'i') {
-			insertionSort(items, comparator);
+			insertionSort(items, comparator, isHeight);
 		} else if (sortAlgorithm == 'm') {
-			mergeSort(items, comparator, 0, items.length - 1);
+			mergeSort(items, comparator, 0, items.length - 1, isHeight);
 		} else if (sortAlgorithm == 'q') {
-			quickSort(items, comparator, 0, items.length - 1);
+			quickSort(items, comparator, 0, items.length - 1, isHeight);
 		} else if (sortAlgorithm == 'z') {
-			stupidSort(items, comparator);
+			stupidSort(items, comparator, isHeight);
 		}
 	}
 
@@ -40,17 +43,26 @@ public class MyArrays {
 	 * @param items      The array of unsorted polygons.
 	 * @param comparator The comparator that the items in the array will be compared
 	 *                   to when sorting.
+	 * @param isHeight   If comparing by height.
 	 */
-	private static void bubbleSort(Comparable[] items, Comparator comparator) {
+	private static void bubbleSort(Comparable[] items, Comparator comparator, boolean isHeight) {
 		int n = items.length;
 		Comparable temp;
 
 		for (int i = 0; i < n - 1; i++) {
 			for (int j = 0; j < n - i - 1; j++) {
-				if (comparator.compare(items[j], items[j + 1]) < 0) {
-					temp = items[j];
-					items[j] = items[j + 1];
-					items[j + 1] = temp;
+				if (isHeight) {
+					if (items[j].compareTo(items[j + 1]) < 0) {
+						temp = items[j];
+						items[j] = items[j + 1];
+						items[j + 1] = temp;
+					}
+				} else {
+					if (comparator.compare(items[j], items[j + 1]) < 0) {
+						temp = items[j];
+						items[j] = items[j + 1];
+						items[j + 1] = temp;
+					}
 				}
 			}
 		}
@@ -62,8 +74,9 @@ public class MyArrays {
 	 * @param items      The array of unsorted polygons.
 	 * @param comparator The comparator that the items in the array will be compared
 	 *                   to when sorting.
+	 * @param isHeight   If comparing by height.
 	 */
-	private static void selectionSort(Comparable[] items, Comparator comparator) {
+	private static void selectionSort(Comparable[] items, Comparator comparator, boolean isHeight) {
 		int n = items.length;
 		Comparable temp;
 		int minIndex;
@@ -71,12 +84,19 @@ public class MyArrays {
 		for (int i = 0; i < n - 1; i++) {
 			minIndex = i;
 			for (int j = i + 1; j < n; j++) {
-				if (comparator.compare(items[j], items[minIndex]) > 0)
-					minIndex = j;
-				temp = items[minIndex];
-				items[minIndex] = items[i];
-				items[i] = temp;
-
+				if (isHeight) {
+					if (items[j].compareTo(items[minIndex]) > 0)
+						minIndex = j;
+					temp = items[minIndex];
+					items[minIndex] = items[i];
+					items[i] = temp;
+				} else {
+					if (comparator.compare(items[j], items[minIndex]) > 0)
+						minIndex = j;
+					temp = items[minIndex];
+					items[minIndex] = items[i];
+					items[i] = temp;
+				}
 			}
 		}
 	}
@@ -87,8 +107,9 @@ public class MyArrays {
 	 * @param items      The array of unsorted polygons.
 	 * @param comparator The comparator that the items in the array will be compared
 	 *                   to when sorting.
+	 * @param isHeight   If comparing by height.
 	 */
-	private static void insertionSort(Comparable[] items, Comparator comparator) {
+	private static void insertionSort(Comparable[] items, Comparator comparator, boolean isHeight) {
 		int n = items.length;
 		Comparable key;
 
@@ -96,9 +117,16 @@ public class MyArrays {
 			key = items[i];
 			int j = i - 1;
 
-			while (j >= 0 && comparator.compare(items[j], key) < 0) {
-				items[j + 1] = items[j];
-				j = j - 1;
+			if (isHeight) {
+				while (j >= 0 && items[j].compareTo(key) < 0) {
+					items[j + 1] = items[j];
+					j = j - 1;
+				}
+			} else {
+				while (j >= 0 && comparator.compare(items[j], key) < 0) {
+					items[j + 1] = items[j];
+					j = j - 1;
+				}
 			}
 
 			items[j + 1] = key;
@@ -114,8 +142,10 @@ public class MyArrays {
 	 * @param left       Beginning of the array.
 	 * @param middle     The middle of the array.
 	 * @param right      End of the array.
+	 * @param isHeight   If comparing by height.
 	 */
-	private static void merge(Comparable[] items, Comparator comparator, int left, int middle, int right) {
+	private static void merge(Comparable[] items, Comparator comparator, int left, int middle, int right,
+			boolean isHeight) {
 		int n1 = middle - left + 1;
 		int n2 = right - middle;
 
@@ -132,12 +162,22 @@ public class MyArrays {
 
 		int k = left;
 		while (i < n1 && j < n2) {
-			if (comparator.compare(L[i], R[j]) >= 0) {
-				items[k] = L[i];
-				i++;
+			if (isHeight) {
+				if (L[i].compareTo(R[j]) >= 0) {
+					items[k] = L[i];
+					i++;
+				} else {
+					items[k] = R[j];
+					j++;
+				}
 			} else {
-				items[k] = R[j];
-				j++;
+				if (comparator.compare(L[i], R[j]) >= 0) {
+					items[k] = L[i];
+					i++;
+				} else {
+					items[k] = R[j];
+					j++;
+				}
 			}
 			k++;
 		}
@@ -163,13 +203,14 @@ public class MyArrays {
 	 *                   to when sorting.
 	 * @param left       Beginning of the array.
 	 * @param right      End of the array.
+	 * @param isHeight   If comparing by height.
 	 */
-	private static void mergeSort(Comparable[] items, Comparator comparator, int left, int right) {
+	private static void mergeSort(Comparable[] items, Comparator comparator, int left, int right, boolean isHeight) {
 		if (left < right) {
 			int middle = (left + right) / 2;
-			mergeSort(items, comparator, left, middle);
-			mergeSort(items, comparator, middle + 1, right);
-			merge(items, comparator, left, middle, right);
+			mergeSort(items, comparator, left, middle, isHeight);
+			mergeSort(items, comparator, middle + 1, right, isHeight);
+			merge(items, comparator, left, middle, right, isHeight);
 		}
 	}
 
@@ -181,20 +222,34 @@ public class MyArrays {
 	 *                   to when sorting.
 	 * @param left       Beginning of the array.
 	 * @param right      End of the array.
+	 * @param isHeight   If comparing by height.
 	 * @return The index at the beginning of the array.
 	 */
-	private static int partition(Comparable[] items, Comparator comparator, int left, int right) {
+	private static int partition(Comparable[] items, Comparator comparator, int left, int right, boolean isHeight) {
 		Comparable pivot = items[left];
 		int p = left;
 
 		for (int r = left; r <= right; r++) {
-			int comp = comparator.compare(items[r], pivot);
-			if (comp > 0) {
-				items[p] = items[r];
-				items[r] = items[p + 1];
-				items[p + 1] = pivot;
+			if (isHeight) {
+				int comp = items[r].compareTo(pivot);
 
-				p++;
+				if (comp > 0) {
+					items[p] = items[r];
+					items[r] = items[p + 1];
+					items[p + 1] = pivot;
+
+					p++;
+				}
+			} else {
+				int comp = comparator.compare(items[r], pivot);
+
+				if (comp > 0) {
+					items[p] = items[r];
+					items[r] = items[p + 1];
+					items[p + 1] = pivot;
+
+					p++;
+				}
 			}
 		}
 
@@ -209,12 +264,13 @@ public class MyArrays {
 	 *                   to when sorting.
 	 * @param left       Beginning of the array.
 	 * @param right      End of the array.
+	 * @param isHeight   If comparing by height.
 	 */
-	private static void quickSort(Comparable[] items, Comparator comparator, int left, int right) {
+	private static void quickSort(Comparable[] items, Comparator comparator, int left, int right, boolean isHeight) {
 		if (left < right) {
-			int p = partition(items, comparator, left, right);
-			quickSort(items, comparator, left, p - 1);
-			quickSort(items, comparator, p + 1, right);
+			int p = partition(items, comparator, left, right, isHeight);
+			quickSort(items, comparator, left, p - 1, isHeight);
+			quickSort(items, comparator, p + 1, right, isHeight);
 		}
 	}
 
@@ -224,12 +280,19 @@ public class MyArrays {
 	 * @param items      The array of unsorted polygons.
 	 * @param comparator The comparator that the items in the array will be compared
 	 *                   to when sorting.
+	 * @param isHeight   If comparing by height.
 	 * @return Returns true if the array is sorted, otherwise returns false.
 	 */
-	private static boolean isSorted(Comparable[] items, Comparator comparator) {
+	private static boolean isSorted(Comparable[] items, Comparator comparator, boolean isHeight) {
 		for (int i = 1; i < items.length; i++) {
-			if (comparator.compare(items[i], items[i - 1]) > 0) {
-				return false;
+			if (isHeight) {
+				if (items[i].compareTo(items[i - 1]) > 0) {
+					return false;
+				}
+			} else {
+				if (comparator.compare(items[i], items[i - 1]) > 0) {
+					return false;
+				}
 			}
 		}
 		return true;
@@ -264,10 +327,11 @@ public class MyArrays {
 	 * @param items      The array of unsorted polygons.
 	 * @param comparator The comparator that the items in the array will be compared
 	 *                   to when sorting.
+	 * @param isHeight   If comparing by height.
 	 */
-	private static void stupidSort(Comparable[] items, Comparator comparator) {
+	private static void stupidSort(Comparable[] items, Comparator comparator, boolean isHeight) {
 		int counter = 0;
-		while (!isSorted(items, comparator)) {
+		while (!isSorted(items, comparator, isHeight)) {
 			shuffle(items);
 			counter++;
 			System.out.println("Randomized " + counter + " times");
