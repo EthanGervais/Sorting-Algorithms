@@ -41,7 +41,7 @@ public class AppDriver {
 
 			switch (option) {
 			case 'f':
-				path = new File("res/" + value);
+				path = new File("res/" + value + ".txt");
 				System.out.println("File: " + value);
 				break;
 			case 's':
@@ -129,10 +129,10 @@ public class AppDriver {
 		}
 
 		// Sorting and getting the time to sort.
-		long start = System.currentTimeMillis();
+		long start = System.nanoTime();
 		MyArrays.sort(sortType, shapeArray, comparator, isHeight);
-		long end = System.currentTimeMillis();
-		long timeElapsed = end - start;
+		long end = System.nanoTime();
+		long timeElapsed = (end - start) / 1000;
 
 		Polygon lastPoly = (Polygon) shapeArray[(int) (arrSize - 1)];
 
@@ -172,7 +172,7 @@ public class AppDriver {
 			System.out.printf("The last value is: %.2f %n", lastPoly.getHeight());
 		}
 
-		System.out.printf("\nTime to sort in ms: " + timeElapsed);
+		System.out.printf("\nTime to sort in MS: " + timeElapsed);
 
 	}
 
