@@ -1,0 +1,25 @@
+Chosen sort:
+Bogosort (Stupid sort)
+
+Description:
+The bogosort sorts by first checking if the list is in order. If the list is out of order,
+it randomizes the list, and checks again. If the list is still out of order, it randomizes the
+list again. Essentially, it randomizes the list until the list is in order. This is a very 
+insanely inefficient way to sort anything. Sorting a test array of 10 items took 8.5 million
+tries in my own trial once.
+
+Example:
+Imagine you throw a deck of cards on the ground. When you pick up the deck, you see that it's not
+in order. You want it in order, so you throw it on the ground again, hoping to pick all the cards
+back up in the correct order. They aren't in order, so you throw the deck on the ground again.
+It would clearly take along time to do this and pick up all 52 cards randomly in the correct
+order. Now to put this in perspective of the assignment, imagine you are doing this for a deck 
+of 20,000+ cards.
+
+Time Complexity:
+The best-case performance for the bogosort is O(n). However, this case is not likely, at least not
+with big lists. The best-case is likely with lists that have a size of 1 or 2. The average performance
+of the bogosort is O((n+1)!). If the expected runtime for the bogosort is known, then this is also
+the worst-case performance. However, if the expected runtime is unknown, then the worst-case performance
+is unbounded (or theoretically infinite). This is because the sort acts entirely on randomization. So in
+theory, the list could potentially never sort and just randomize forever.
